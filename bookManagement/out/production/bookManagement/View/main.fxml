@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedAreaChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="main" prefHeight="900.0" prefWidth="1500.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookmanagement.MainController">
+   <children>
+      <AnchorPane id="nav" layoutX="85.0" layoutY="155.0" prefHeight="200.0" prefWidth="300.0" styleClass="nav" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1200.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="69.0" layoutY="97.0" prefHeight="65.0" style="-fx-font-size: 36;" styleClass="nav_text" text="Welcome" textOverrun="CLIP" />
+            <Label alignment="CENTER" contentDisplay="TOP" layoutX="88.0" layoutY="133.0" prefHeight="65.0" style="-fx-font-size: 36; -fx-font-weight: 700;" styleClass="nav_text" text="admin" />
+            <Separator layoutX="59.0" layoutY="257.0" prefWidth="200.0" AnchorPane.bottomAnchor="630.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="257.0" />
+            <VBox layoutX="52.0" layoutY="318.0" prefHeight="563.0" prefWidth="300.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+               <children>
+                  <Button fx:id="home" mnemonicParsing="false" onAction="#switchForm" prefHeight="52.0" prefWidth="220.0" styleClass="nav-btn" text="Home">
+                     <VBox.margin>
+                        <Insets top="12.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="bookSotorage" mnemonicParsing="false" onAction="#switchForm" prefHeight="52.0" prefWidth="220.0" styleClass="nav-btn" text="Book Storage">
+                     <VBox.margin>
+                        <Insets top="12.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="rentalManagement" mnemonicParsing="false" onAction="#switchForm" prefHeight="52.0" prefWidth="220.0" styleClass="nav-btn" text="Rental Management">
+                     <VBox.margin>
+                        <Insets top="12.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <Button fx:id="logOut" layoutX="21.0" layoutY="852.0" mnemonicParsing="false" style="-fx-font-weight: 700; -fx-font-size: 20; -fx-padding: 8 16;" styleClass="nav-btn" text="Log out" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="home_form" layoutX="759.0" layoutY="255.0" prefHeight="200.0" prefWidth="1200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" fillHeight="false" layoutX="483.0" layoutY="75.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Pane prefHeight="280.0" prefWidth="580.0">
+                     <styleClass>
+                        <String fx:value="card" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <Label fx:id="numOfBooks" layoutX="514.0" layoutY="23.0" style="-fx-text-fill: #fff; -fx-font-size: 42;" text="3" />
+                        <Label layoutX="176.0" layoutY="180.0" style="-fx-text-fill: #fff; -fx-font-size: 42;" text="Total Books" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="320.0" layoutY="26.0" prefHeight="280.0" prefWidth="580.0">
+                     <styleClass>
+                        <String fx:value="card" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <Label fx:id="numOfRental" layoutX="514.0" layoutY="23.0" style="-fx-text-fill: #fff; -fx-font-size: 42;" text="1" />
+                        <Label layoutX="175.0" layoutY="180.0" style="-fx-text-fill: #fff; -fx-font-size: 42;" text="Total Rental" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
+                  </Pane>
+               </children>
+               <padding>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+               </padding>
+            </HBox>
+            <AnchorPane layoutX="536.0" layoutY="501.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
+               <children>
+                  <StackedAreaChart fx:id="chartBook" layoutX="310.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="70.0">
+                    <xAxis>
+                      <NumberAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </StackedAreaChart>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="book_form" layoutX="759.0" layoutY="284.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="379.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TextField fx:id="searchBox" layoutX="66.0" layoutY="37.0" onInputMethodTextChanged="#searchBook" prefHeight="40.0" prefWidth="400.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                  <TableView fx:id="bookDetail"  editable="true" layoutX="488.0" layoutY="177.0" onMouseClicked="#selectBook" prefHeight="200.0" prefWidth="200.0" styleClass="shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="90.0">
+                    <columns>
+                      <TableColumn fx:id="bookId" prefWidth="140.0" text="Book ID" />
+                      <TableColumn fx:id="bookTitle" prefWidth="220.0" text="Title" />
+                        <TableColumn fx:id="bookAuthor" prefWidth="130.0" text="Author" />
+                        <TableColumn fx:id="bookPubliser" prefWidth="150.0" text="Publiser" />
+                        <TableColumn fx:id="bookPublicYear" prefWidth="120.0" text="Public Year" />
+                        <TableColumn fx:id="bookGenre" prefWidth="150.0" text="Genre" />
+                        <TableColumn fx:id="bookQuantity" prefWidth="120.0" text="Quantity" />
+                        <TableColumn fx:id="bookPrice" prefWidth="120.0" text="Price" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="247.0" layoutY="631.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="550.0">
+               <children>
+                  <Pane layoutX="120.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <TextField fx:id="inputBookId" layoutX="150.0" layoutY="25.0" prefHeight="29.0" prefWidth="240.0" />
+                        <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Book Id:" />
+                        <Label layoutX="50.0" layoutY="75.0" styleClass="label_input" text="Title:" />
+                        <Label layoutX="50.0" layoutY="125.0" styleClass="label_input" text="Author:" />
+                        <Label layoutX="50.0" layoutY="175.0" styleClass="label_input" text="Genre:" />
+                        <TextField fx:id="inputTitle" layoutX="150.0" layoutY="75.0" prefHeight="29.0" prefWidth="240.0" />
+                        <TextField fx:id="inputAuthor" layoutX="150.0" layoutY="125.0" prefHeight="29.0" prefWidth="240.0" />
+                        <TextField fx:id="inputGenre" layoutX="150.0" layoutY="175.0" prefHeight="29.0" prefWidth="240.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="688.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <TextField fx:id="inputPubliser" layoutX="175.0" layoutY="25.0" prefHeight="29.0" prefWidth="240.0" />
+                        <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Publiser:" />
+                        <Label layoutX="50.0" layoutY="75.0" styleClass="label_input" text="Public Year:" />
+                        <Label layoutX="50.0" layoutY="125.0" styleClass="label_input" text="Quantity:" />
+                        <Label layoutX="50.0" layoutY="175.0" styleClass="label_input" text="Price:" />
+                        <TextField fx:id="inputQuantity" layoutX="175.0" layoutY="125.0" prefHeight="29.0" prefWidth="240.0" />
+                        <TextField fx:id="inputPrice" layoutX="175.0" layoutY="175.0" prefHeight="29.0" prefWidth="240.0" />
+                        <DatePicker fx:id="inputPublicYear" layoutX="175.0" layoutY="75.0" prefHeight="29.0" prefWidth="240.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="688.0" layoutY="33.0" maxHeight="240.0" maxWidth="154.0" prefHeight="240.0" prefWidth="154.0" style="-fx-border-color: #333; -fx-border-width: 2;" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="975.0" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="25.0">
+                     <children>
+                        <ImageView fx:id="importImg" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="shadow" x="2.0" y="2.0">
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                        <Button fx:id="importImgBtn" layoutX="2.0" layoutY="198.0" mnemonicParsing="false" onAction="#insertImage" prefHeight="40.0" prefWidth="150.0" style="-fx-font-size: 18px; -fx-padding: 0;" styleClass="import-btn" text="Import image" />
+                     </children>
+                  </Pane>
+                  <HBox fillHeight="false" layoutX="408.0" layoutY="242.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="225.0">
+                     <children>
+                        <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#resetListBook" prefHeight="60.0" prefWidth="125.0" styleClass="clear-btn" text="CLEAR">
+                           <HBox.margin>
+                              <Insets bottom="25.0" left="75.0" right="20.0" top="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="delBtn" mnemonicParsing="false" onAction="#deleteListBook" prefHeight="60.0" prefWidth="125.0" styleClass="delete-btn" text="DELETE">
+                           <HBox.margin>
+                              <Insets bottom="25.0" left="20.0" right="25.0" top="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="updateBtn" layoutX="285.0" layoutY="35.0" mnemonicParsing="false" onAction="#updateListBook" prefHeight="60.0" prefWidth="125.0" styleClass="update-btn" text="UPDATE">
+                           <HBox.margin>
+                              <Insets bottom="25.0" left="200.0" right="20.0" top="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="addBtn" layoutX="460.0" layoutY="35.0" mnemonicParsing="false" onAction="#addListBook" prefHeight="60.0" prefWidth="125.0" styleClass="add-btn" text="ADD">
+                           <HBox.margin>
+                              <Insets bottom="25.0" left="20.0" right="25.0" top="25.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="rental_form" layoutX="933.0" layoutY="243.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane layoutX="25.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #333; -fx-border-radius: 8px;" AnchorPane.bottomAnchor="450.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="815.0" AnchorPane.topAnchor="25.0">
+               <children>
+                  <TextField fx:id="inputManageId" layoutX="160.0" layoutY="75.0" prefHeight="30.0" prefWidth="190.0" />
+                  <Label layoutX="15.0" layoutY="75.0" styleClass="label_input" text="Book Id:" />
+                  <Label layoutX="15.0" layoutY="275.0" styleClass="label_input" text="Rental Price:" />
+                  <Label layoutX="15.0" layoutY="125.0" styleClass="label_input" text="Title:" />
+                  <TextField fx:id="inputManageTitle" layoutX="160.0" layoutY="125.0" prefHeight="30.0" prefWidth="190.0" />
+                  <Label layoutX="15.0" layoutY="175.0" styleClass="label_input" text="Quantity:" />
+                  <Label layoutX="15.0" layoutY="225.0" styleClass="label_input" text="Price:" />
+                  <TextField fx:id="inputManageQuantity" layoutX="160.0" layoutY="175.0" prefHeight="30.0" prefWidth="190.0" />
+                  <TextField fx:id="inputManagePrice" layoutX="160.0" layoutY="225.0" prefHeight="30.0" prefWidth="190.0" />
+                  <TextField fx:id="inputManageRental" layoutX="160.0" layoutY="275.0" prefHeight="30.0" prefWidth="190.0" />
+                  <DatePicker fx:id="inputManageDate" layoutX="160.0" layoutY="325.0" prefHeight="30.0" prefWidth="190.0" />
+                  <Label layoutX="15.0" layoutY="325.0" styleClass="label_input" text="Rental day:" />
+               </children>
+            </Pane>
+            <AnchorPane layoutX="675.0" layoutY="350.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TableView fx:id="rentalDetail" layoutX="328.0" layoutY="239.0" onMouseClicked="#selectRentalBook" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="25.0">
+                    <columns>
+                      <TableColumn fx:id="manageBookId" prefWidth="140.0" text="Book Id" />
+                      <TableColumn fx:id="manageTitle" prefWidth="225.0" text="Title" />
+                        <TableColumn fx:id="manageQuantity" prefWidth="100.0" text="Quantity" />
+                        <TableColumn fx:id="managePrice" prefWidth="100.0" text="Price" />
+                        <TableColumn fx:id="manageRental" prefWidth="100.0" text="Rental Price" />
+                        <TableColumn fx:id="manageIsRental" prefWidth="115.0" text="Rental" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <Button layoutX="225.0" layoutY="475.0" mnemonicParsing="false" onAction="#updateRentalListBook" prefHeight="60.0" prefWidth="125.0" styleClass="update-btn" text="UPDATE" />
+            <Button layoutX="50.0" layoutY="475.0" mnemonicParsing="false" onAction="#deleteRentalListBook" prefHeight="60.0" prefWidth="125.0" styleClass="delete-btn" text="DELETE" />
+            <Button layoutX="137.0" layoutY="560.0" mnemonicParsing="false" onAction="#returnRentalBook" prefHeight="60.0" prefWidth="125.0" styleClass="delete-btn" text="RETURN" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
