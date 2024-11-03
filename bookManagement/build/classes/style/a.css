@@ -1,7 +1,7 @@
 
 
-.nav {
-    -fx-background-color: linear-gradient(to bottom right, #222, #ccc);
+#nav {
+
 }
 
 .nav_text {
@@ -24,7 +24,7 @@
 }
 
 .card{
-    -fx-background-color:linear-gradient(to right, #ffff66, #28966c);
+    -fx-background-color:linear-gradient(to right, #2b303c, #525968);
     -fx-background-radius: 8px;
 }
 
@@ -87,60 +87,48 @@
 }
 .import-btn{
     -fx-background-color:#ddd;
-    -fx-text-fill: #FF1C1C;
+    -fx-text-fill:red;
     -fx-cursor:hand;
     -fx-border: none;
     -fx-padding: 0;
 }
 
-.import-btn:hover {
-    -fx-background-color:#666666;
-    -fx-text-fill: #fff;
-}
-
-
-
 .add-btn{
-    -fx-background-color:#304575;
     -fx-text-fill:#fff;
+    -fx-font-family:"Arial";
 }
 .add-btn:hover{
     -fx-background-color:#3357a4;
 }.update-btn{
      -fx-background-color:#327252;
+     -fx-background-radius:8px;
      -fx-text-fill:#fff;
-}
-.update-btn:hover{
- -fx-background-color:#309a65;
-}
+     -fx-font-size:14;
+     -fx-font-family:"Arial";
+ }
+ .update-btn:hover{
+     -fx-background-color:#309a65;
+ }
 
-.delete-btn{
- -fx-background-color:#86253f;
- -fx-text-fill:#fff;
-}
-.delete-btn:hover{
- -fx-background-color:#ae1d46;
-}
+ .delete-btn{
+     -fx-background-color:#86253f;
+     -fx-background-radius:8px;
+     -fx-text-fill:#fff;
+     -fx-font-size:14;
+     -fx-font-family:"Arial";
+ }
+ .delete-btn:hover{
+     -fx-background-color:#ae1d46;
+ }
 
-.clear-btn{
- -fx-background-color:#753566;
- -fx-text-fill:#fff;
-}
-.clear-btn:hover{
- -fx-background-color:#9d3485;
-}
+ .clear-btn{
+     -fx-background-color:#753566;
+     -fx-background-radius:8px;
+     -fx-text-fill:#fff;
+     -fx-font-size:14;
+     -fx-font-family:"Arial";
+ }
+ .clear-btn:hover{
+     -fx-background-color:#9d3485;
+ }
 
-.rental-btn{
-  -fx-background-color:#066;
-  -fx-text-fill:#fff;
-}
-.rental-btn:hover{
-  -fx-background-color:#9d3485;
-}
-
-.btn {
-    -fx-background-radius:4px;
-    -fx-font-size:12px;
-    -fx-font-family:"Arial";
-    -fx-cursor:hand;
-}

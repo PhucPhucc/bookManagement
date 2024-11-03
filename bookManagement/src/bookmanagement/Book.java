@@ -1,6 +1,5 @@
 package bookmanagement;
 
-import org.jcp.xml.dsig.internal.dom.DOMUtils;
 
 import java.sql.Date;
 
@@ -15,17 +14,11 @@ public class Book {
     private Integer quantity;
     private Double price;
     private String image;
-    private Date rentalDay;
 
-    public double getRental() {
-        double rentalValue = (quantity != null && quantity != 0) ? (price / (quantity * 2) ) : 0.0;
-        rentalValue = Math.round(rentalValue * 100.0) / 100.0;
-        if(rentalValue > 20) rentalValue = 20;
-        if(rentalValue < 2 ) rentalValue = 2;
-        return rentalValue;
-    }
 
-    public Book(Integer id, String title, String author, String publiser, Date publicYear, String genre, Integer quantity, Double price, String image, Date rentalDay) {
+
+
+    public Book(Integer id, String title, String author, String publiser, Date publicYear, String genre, Integer quantity, Double price, String image) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -35,7 +28,6 @@ public class Book {
         this.quantity = quantity;
         this.price = price;
         this.image = image;
-        this.rentalDay = rentalDay;
     }
 
     public Book() {
@@ -112,12 +104,11 @@ public class Book {
     public void setImage(String image) {
         this.image = image;
     }
-
-    public Date getRentalDay() {
-        return rentalDay;
-    }
-
-    public void setRentalDay(Date rentalDay) {
-        this.rentalDay = rentalDay;
+    public double getRentalPrice() {
+        double rentalValue = (quantity != null && quantity != 0) ? (price / (quantity * 2) ) : 0.0;
+        rentalValue = Math.round(rentalValue * 100.0) / 100.0;
+        if(rentalValue > 20) rentalValue = 20;
+        if(rentalValue < 2 ) rentalValue = 2;
+        return rentalValue;
     }
 }

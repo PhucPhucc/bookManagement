@@ -32,12 +32,17 @@
                         <Insets top="12.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="bookSotorage" mnemonicParsing="false" onAction="#switchForm" prefHeight="52.0" prefWidth="220.0" styleClass="nav-btn" text="Book Storage">
+                  <Button fx:id="bookStorage" mnemonicParsing="false" onAction="#switchForm" prefHeight="52.0" prefWidth="220.0" styleClass="nav-btn" text="Book Storage">
                      <VBox.margin>
                         <Insets top="12.0" />
                      </VBox.margin>
                   </Button>
                   <Button fx:id="rentalManagement" mnemonicParsing="false" onAction="#switchForm" prefHeight="52.0" prefWidth="220.0" styleClass="nav-btn" text="Rental Management">
+                     <VBox.margin>
+                        <Insets top="12.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="customerManagement" mnemonicParsing="false" onAction="#switchForm" prefHeight="52.0" prefWidth="220.0" styleClass="nav-btn" text="Customer Management">
                      <VBox.margin>
                         <Insets top="12.0" />
                      </VBox.margin>
@@ -95,26 +100,26 @@
       </AnchorPane>
       <AnchorPane fx:id="book_form" layoutX="759.0" layoutY="284.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane layoutX="379.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="379.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TextField fx:id="searchBox" layoutX="66.0" layoutY="37.0" onInputMethodTextChanged="#searchBook" prefHeight="40.0" prefWidth="400.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
                   <TableView fx:id="bookDetail" editable="true" layoutX="488.0" layoutY="177.0" onMouseClicked="#selectBook" prefHeight="200.0" prefWidth="200.0" styleClass="shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="90.0">
                     <columns>
-                      <TableColumn fx:id="bookId" prefWidth="140.0" text="Book ID" />
-                      <TableColumn fx:id="bookTitle" prefWidth="220.0" text="Title" />
-                        <TableColumn fx:id="bookAuthor" prefWidth="130.0" text="Author" />
-                        <TableColumn fx:id="bookPubliser" prefWidth="150.0" text="Publiser" />
-                        <TableColumn fx:id="bookPublicYear" prefWidth="120.0" text="Public Year" />
+                      <TableColumn fx:id="bookId" prefWidth="50.0" text="ID" />
+                      <TableColumn fx:id="bookTitle" prefWidth="250.0" text="Title" />
+                        <TableColumn fx:id="bookAuthor" prefWidth="175.0" text="Author" />
+                        <TableColumn fx:id="bookPubliser" prefWidth="173.0" text="Publiser" />
+                        <TableColumn fx:id="bookPublicYear" prefWidth="115.0" text="Public Year" />
                         <TableColumn fx:id="bookGenre" prefWidth="150.0" text="Genre" />
-                        <TableColumn fx:id="bookQuantity" prefWidth="120.0" text="Quantity" />
+                        <TableColumn fx:id="bookQuantity" prefWidth="115.0" text="Quantity" />
                         <TableColumn fx:id="bookPrice" prefWidth="120.0" text="Price" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="247.0" layoutY="631.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="550.0">
+            <AnchorPane layoutX="247.0" layoutY="631.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="600.0">
                <children>
-                  <Pane layoutX="120.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="0.0">
+                  <Pane layoutX="120.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <TextField fx:id="inputBookId" layoutX="150.0" layoutY="25.0" prefHeight="29.0" prefWidth="240.0" />
                         <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Book Id:" />
@@ -126,7 +131,7 @@
                         <TextField fx:id="inputGenre" layoutX="150.0" layoutY="175.0" prefHeight="29.0" prefWidth="240.0" />
                      </children>
                   </Pane>
-                  <Pane layoutX="688.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
+                  <Pane layoutX="688.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <TextField fx:id="inputPubliser" layoutX="175.0" layoutY="25.0" prefHeight="29.0" prefWidth="240.0" />
                         <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Publiser:" />
@@ -138,7 +143,7 @@
                         <DatePicker fx:id="inputPublicYear" layoutX="175.0" layoutY="75.0" prefHeight="29.0" prefWidth="240.0" />
                      </children>
                   </Pane>
-                  <Pane layoutX="688.0" layoutY="33.0" maxHeight="240.0" maxWidth="154.0" prefHeight="240.0" prefWidth="154.0" style="-fx-border-color: #333; -fx-border-width: 2;" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="975.0" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="25.0">
+                  <Pane layoutX="688.0" layoutY="33.0" maxHeight="240.0" maxWidth="154.0" prefHeight="240.0" prefWidth="154.0" style="-fx-border-color: #333; -fx-border-width: 2;" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="1000.0" AnchorPane.topAnchor="25.0">
                      <children>
                         <ImageView fx:id="importImg" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="shadow" x="2.0" y="2.0">
                            <viewport>
@@ -150,24 +155,29 @@
                   </Pane>
                   <HBox fillHeight="false" layoutX="408.0" layoutY="242.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="225.0">
                      <children>
-                        <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#resetListBook" prefHeight="60.0" prefWidth="125.0" styleClass="clear-btn" text="CLEAR">
+                        <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#resetListData" prefHeight="50.0" prefWidth="100.0" styleClass="clear-btn" text="CLEAR">
                            <HBox.margin>
-                              <Insets bottom="25.0" left="75.0" right="20.0" top="25.0" />
+                              <Insets left="245.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="delBtn" mnemonicParsing="false" onAction="#deleteListBook" prefHeight="60.0" prefWidth="125.0" styleClass="delete-btn" text="DELETE">
+                        <Button fx:id="delBtn" mnemonicParsing="false" onAction="#deleteListBook" prefHeight="50.0" prefWidth="100.0" styleClass="delete-btn" text="DELETE">
                            <HBox.margin>
-                              <Insets bottom="25.0" left="20.0" right="25.0" top="25.0" />
+                              <Insets left="30.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="updateBtn" layoutX="285.0" layoutY="35.0" mnemonicParsing="false" onAction="#updateListBook" prefHeight="60.0" prefWidth="125.0" styleClass="update-btn" text="UPDATE">
+                        <Button mnemonicParsing="false" onAction="#rentalBtn" prefHeight="50.0" prefWidth="100.0" styleClass="rental-btn" text="RENTAL">
                            <HBox.margin>
-                              <Insets bottom="25.0" left="200.0" right="20.0" top="25.0" />
+                              <Insets left="30.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="addBtn" layoutX="460.0" layoutY="35.0" mnemonicParsing="false" onAction="#addListBook" prefHeight="60.0" prefWidth="125.0" styleClass="add-btn" text="ADD">
+                        <Button fx:id="updateBtn" layoutX="285.0" layoutY="35.0" mnemonicParsing="false" onAction="#updateListBook" prefHeight="50.0" prefWidth="100.0" styleClass="update-btn" text="UPDATE">
                            <HBox.margin>
-                              <Insets bottom="25.0" left="20.0" right="25.0" top="25.0" />
+                              <Insets left="30.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="addBtn" layoutX="460.0" layoutY="35.0" mnemonicParsing="false" onAction="#addListBook" prefHeight="50.0" prefWidth="100.0" styleClass="add-btn" text="ADD">
+                           <HBox.margin>
+                              <Insets left="30.0" right="25.0" top="5.0" />
                            </HBox.margin>
                         </Button>
                      </children>
@@ -176,41 +186,115 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="rental_form" layoutX="933.0" layoutY="243.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="customer_form" layoutX="933.0" layoutY="243.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane layoutX="25.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #333; -fx-border-radius: 8px;" AnchorPane.bottomAnchor="450.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="815.0" AnchorPane.topAnchor="25.0">
+            <Pane layoutX="25.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #333; -fx-border-radius: 8px;" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="815.0" AnchorPane.topAnchor="85.0">
                <children>
-                  <TextField fx:id="inputManageId" layoutX="160.0" layoutY="75.0" prefHeight="30.0" prefWidth="190.0" />
-                  <Label layoutX="15.0" layoutY="75.0" styleClass="label_input" text="Book Id:" />
-                  <Label layoutX="15.0" layoutY="275.0" styleClass="label_input" text="Rental Price:" />
-                  <Label layoutX="15.0" layoutY="125.0" styleClass="label_input" text="Title:" />
-                  <TextField fx:id="inputManageTitle" layoutX="160.0" layoutY="125.0" prefHeight="30.0" prefWidth="190.0" />
-                  <Label layoutX="15.0" layoutY="175.0" styleClass="label_input" text="Quantity:" />
-                  <Label layoutX="15.0" layoutY="225.0" styleClass="label_input" text="Price:" />
-                  <TextField fx:id="inputManageQuantity" layoutX="160.0" layoutY="175.0" prefHeight="30.0" prefWidth="190.0" />
-                  <TextField fx:id="inputManagePrice" layoutX="160.0" layoutY="225.0" prefHeight="30.0" prefWidth="190.0" />
-                  <TextField fx:id="inputManageRental" layoutX="160.0" layoutY="275.0" prefHeight="30.0" prefWidth="190.0" />
-                  <DatePicker fx:id="inputManageDate" layoutX="160.0" layoutY="325.0" prefHeight="30.0" prefWidth="190.0" />
-                  <Label layoutX="15.0" layoutY="325.0" styleClass="label_input" text="Rental day:" />
+                  <TextField fx:id="inputCustomerId" layoutX="175.0" layoutY="25.0" prefHeight="30.0" prefWidth="180.0" />
+                  <Label layoutX="15.0" layoutY="25.0" styleClass="label_input" text="Customer ID:" />
+                  <TextField fx:id="inputName" layoutX="175.0" layoutY="75.0" prefHeight="30.0" prefWidth="180.0" />
+                  <Label layoutX="15.0" layoutY="75.0" styleClass="label_input" text="Full Name:" />
+                  <TextField fx:id="inputPhone" layoutX="175.0" layoutY="125.0" prefHeight="30.0" prefWidth="180.0" />
+                  <Label layoutX="15.0" layoutY="125.0" styleClass="label_input" text="Phone Number:" />
+                  <TextField fx:id="inputAddress" layoutX="175.0" layoutY="175.0" prefHeight="30.0" prefWidth="180.0" />
+                  <Label layoutX="15.0" layoutY="175.0" styleClass="label_input" text="Address:" />
+                  <TextField fx:id="inputEmail" layoutX="175.0" layoutY="225.0" prefHeight="30.0" prefWidth="180.0" />
+                  <Label layoutX="15.0" layoutY="225.0" styleClass="label_input" text="Email:" />
                </children>
             </Pane>
             <AnchorPane layoutX="675.0" layoutY="350.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TableView fx:id="rentalDetail" layoutX="328.0" layoutY="239.0" onMouseClicked="#selectRentalBook" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="25.0">
+                  <TableView fx:id="customerView" layoutX="328.0" layoutY="239.0" onMouseClicked="#selectCustomer" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="25.0">
                     <columns>
-                      <TableColumn fx:id="manageBookId" prefWidth="140.0" text="Book Id" />
-                      <TableColumn fx:id="manageTitle" prefWidth="225.0" text="Title" />
-                        <TableColumn fx:id="manageQuantity" prefWidth="100.0" text="Quantity" />
-                        <TableColumn fx:id="managePrice" prefWidth="100.0" text="Price" />
-                        <TableColumn fx:id="manageRental" prefWidth="100.0" text="Rental Price" />
-                        <TableColumn fx:id="manageIsRental" prefWidth="115.0" text="Rental" />
+                      <TableColumn fx:id="customerId" prefWidth="50.0" text="STT" />
+                      <TableColumn fx:id="customerName" prefWidth="200.0" text="Full Name" />
+                        <TableColumn fx:id="customerPhone" prefWidth="150.0" text="Phone Number" />
+                        <TableColumn fx:id="customerAddress" prefWidth="205.0" text="Address" />
+                        <TableColumn fx:id="customerEmail" prefWidth="175.0" text="Email" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
-            <Button layoutX="225.0" layoutY="475.0" mnemonicParsing="false" onAction="#updateRentalListBook" prefHeight="60.0" prefWidth="125.0" styleClass="update-btn" text="UPDATE" />
-            <Button layoutX="50.0" layoutY="475.0" mnemonicParsing="false" onAction="#deleteRentalListBook" prefHeight="60.0" prefWidth="125.0" styleClass="delete-btn" text="DELETE" />
-            <Button layoutX="137.0" layoutY="560.0" mnemonicParsing="false" onAction="#returnRentalBook" prefHeight="60.0" prefWidth="125.0" styleClass="delete-btn" text="RETURN" />
+            <TextField fx:id="searchCustomer" layoutX="47.0" layoutY="42.0" onInputMethodTextChanged="#setSearchCustomer" onKeyTyped="#setSearchCustomer" prefHeight="35.0" promptText="SEARCH" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="900.0" AnchorPane.topAnchor="30.0" />
+            <Button layoutX="244.0" layoutY="444.0" mnemonicParsing="false" onAction="#addListCustomer" prefHeight="40.0" prefWidth="100.0" styleClass="update-btn" text="ADD" />
+            <Button layoutX="22.0" layoutY="445.0" mnemonicParsing="false" onAction="#deleteListCustomer" prefHeight="40.0" prefWidth="100.0" styleClass="delete-btn" text="DELETE" />
+            <Button layoutX="161.0" layoutY="498.0" mnemonicParsing="false" onAction="#updateListCustomer" prefHeight="40.0" prefWidth="100.0" styleClass="delete-btn" text="UPDATE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="rental_form" layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="379.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TextField fx:id="searchRental" layoutX="66.0" layoutY="37.0" onInputMethodTextChanged="#searchBook" prefHeight="40.0" prefWidth="400.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                  <TableView fx:id="rentalDetail" editable="true" layoutX="488.0" layoutY="177.0" onMouseClicked="#selectRental" prefHeight="200.0" prefWidth="200.0" styleClass="shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="90.0">
+                     <columns>
+                        <TableColumn fx:id="rentalId" prefWidth="50.0" text="STT" />
+                        <TableColumn fx:id="rentalCustomerId" prefWidth="110.0" text="Customer Id" />
+                        <TableColumn fx:id="rentalName" prefWidth="175.0" text="Name" />
+                        <TableColumn fx:id="rentalPhone" prefWidth="140.0" text="Phone" />
+                        <TableColumn fx:id="rentalTitleBook" prefWidth="200.0" text="Title Book" />
+                        <TableColumn fx:id="rentalPrice" prefWidth="100.0" text="Rental Price" />
+                        <TableColumn fx:id="rentalDate" prefWidth="125.0" text="Rental Date" />
+                        <TableColumn fx:id="rentalDue" prefWidth="125.0" text="Due Date" />
+                        <TableColumn fx:id="rentalReturn" prefWidth="125.0" text="Return Date" />
+                     </columns>
+                  </TableView>
+                  <Button layoutX="1026.0" layoutY="22.0" mnemonicParsing="false" onAction="#addListRental" prefHeight="30.0" prefWidth="75.0" text="ADD" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
+                     <styleClass>
+                        <String fx:value="add-btn" />
+                        <String fx:value="btn" />
+                     </styleClass></Button>
+                  <Button layoutX="817.0" layoutY="33.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="75.0" text="CANCEL" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="25.0">
+                     <styleClass>
+                        <String fx:value="rental-btn" />
+                        <String fx:value="btn" />
+                     </styleClass></Button>
+                  <Button layoutX="763.0" layoutY="26.0" mnemonicParsing="false" onAction="#deleteListRental" prefHeight="30.0" prefWidth="75.0" text="DELETE" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="25.0">
+                     <styleClass>
+                        <String fx:value="rental-btn" />
+                        <String fx:value="btn" />
+                     </styleClass></Button>
+                  <Button layoutX="765.0" layoutY="29.0" mnemonicParsing="false" onAction="#updateListRental" prefHeight="30.0" prefWidth="75.0" text="UPDATE" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="25.0">
+                     <styleClass>
+                        <String fx:value="rental-btn" />
+                        <String fx:value="btn" />
+                     </styleClass>
+                  </Button>
+                  <Button layoutX="671.0" layoutY="29.0" mnemonicParsing="false" onAction="#returnListRental" prefHeight="30.0" prefWidth="75.0" text="RETURN" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="25.0">
+                     <styleClass>
+                        <String fx:value="rental-btn" />
+                        <String fx:value="btn" />
+                     </styleClass></Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="675.0">
+               <children>
+                  <Pane layoutX="120.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="650.0" AnchorPane.topAnchor="50.0">
+                     <children>
+                        <TextField fx:id="inputRentalCustomerId" layoutX="190.0" layoutY="25.0" prefHeight="30.0" prefWidth="300.0" />
+                        <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Customer Id:" />
+                        <Label layoutX="50.0" layoutY="75.0" styleClass="label_input" text="Name:" />
+                        <Label layoutX="50.0" layoutY="125.0" styleClass="label_input" text="Phone:" />
+                        <TextField fx:id="inputRentalName" layoutX="190.0" layoutY="75.0" prefHeight="30.0" prefWidth="300.0" />
+                        <TextField fx:id="inputRentalPhone" layoutX="190.0" layoutY="125.0" prefHeight="30.0" prefWidth="300.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="459.0" layoutY="-5.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="50.0">
+                     <children>
+                        <TextField fx:id="inputRentalPrice" layoutX="190.0" layoutY="25.0" prefHeight="30.0" prefWidth="240.0" />
+                        <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Rental Price:" />
+                        <Label layoutX="50.0" layoutY="75.0" styleClass="label_input" text="Rental Date:" />
+                        <Label layoutX="50.0" layoutY="125.0" styleClass="label_input" text="Due Date:" />
+                        <DatePicker fx:id="inputRentalDate" layoutX="190.0" layoutY="75.0" prefHeight="30.0" prefWidth="240.0" />
+                        <DatePicker fx:id="inputDueDate" layoutX="190.0" layoutY="125.0" prefHeight="30.0" prefWidth="240.0" />
+                     </children>
+                  </Pane>
+                  <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Book Id:" />
+                  <Label fx:id="labelBookId" layoutX="140.0" layoutY="25.0" styleClass="label_input" />
+                  <Label layoutX="200.0" layoutY="25.0" styleClass="label_input" text="Title Book:" />
+                  <Label fx:id="labelTitleBook" layoutX="325.0" layoutY="25.0" styleClass="label_input" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

@@ -1,6 +1,8 @@
 package bookmanagement;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -13,12 +15,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.File;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -32,22 +36,19 @@ public class MainController implements Initializable {
     private Button home;
 
     @FXML
-    private AnchorPane home_form;
-
-    @FXML
-    private AnchorPane book_form;
-
-    @FXML
-    private AnchorPane rental_form;
-
-    @FXML
-    private Button bookSotorage;
+    private Button bookStorage;
 
     @FXML
     private Button rentalManagement;
 
     @FXML
+    private Button customerManagement;
+
+    @FXML
     private Button logOut;
+
+    @FXML
+    private AnchorPane home_form;
 
     @FXML
     private Label numOfBooks;
@@ -59,8 +60,10 @@ public class MainController implements Initializable {
     private StackedAreaChart<?, ?> chartBook;
 
     @FXML
-    private TextField searchBox;
+    private AnchorPane book_form;
 
+    @FXML
+    private TextField searchBox;
     @FXML
     private TableView<Book> bookDetail;
 
@@ -104,13 +107,13 @@ public class MainController implements Initializable {
     private TextField inputPubliser;
 
     @FXML
-    private DatePicker inputPublicYear;
-
-    @FXML
     private TextField inputQuantity;
 
     @FXML
     private TextField inputPrice;
+
+    @FXML
+    private DatePicker inputPublicYear;
 
     @FXML
     private ImageView importImg;
@@ -131,47 +134,107 @@ public class MainController implements Initializable {
     private Button addBtn;
 
     @FXML
-    private TextField inputManageId;
+    private AnchorPane customer_form;
 
     @FXML
-    private TextField inputManageTitle;
+    private TextField inputName;
 
     @FXML
-    private TextField inputManageQuantity;
+    private TextField inputPhone;
 
     @FXML
-    private TextField inputManagePrice;
+    private TextField inputAddress;
 
     @FXML
-    private TextField inputManageRental;
+    private TextField inputEmail;
 
     @FXML
-    private DatePicker inputManageDate;
+    private TableView<Customer> customerView;
 
     @FXML
-    private TableView<Book> rentalDetail;
+    private TableColumn<Customer, Integer> customerId;
 
     @FXML
-    private TableColumn<Book, Integer> manageBookId;
+    private TableColumn<Customer, String> customerName;
 
     @FXML
-    private TableColumn<Book, String> manageTitle;
+    private TableColumn<Customer, String> customerPhone;
 
     @FXML
-    private TableColumn<Book, Integer> manageQuantity;
+    private TableColumn<Customer, String> customerAddress;
 
     @FXML
-    private TableColumn<Book, Double> managePrice;
+    private TableColumn<Customer, String> customerEmail;
 
     @FXML
-    private TableColumn<Book, Double> manageRental;
+    private TextField searchCustomer;
 
     @FXML
-    private TableColumn<Book, Date> manageIsRental;
+    private AnchorPane rental_form;
 
+    @FXML
+    private TextField searchRental;
 
+    @FXML
+    private TableView<Rental> rentalDetail;
+
+    @FXML
+    private TableColumn<Rental, Integer> rentalId;
+
+    @FXML
+    private TableColumn<Rental, Integer> rentalCustomerId;
+
+    @FXML
+    private TableColumn<Rental, String> rentalName;
+
+    @FXML
+    private TableColumn<Rental, String> rentalPhone;
+
+    @FXML
+    private TableColumn<Rental, String> rentalTitleBook;
+
+    @FXML
+    private TableColumn<Rental, Double> rentalPrice;
+
+    @FXML
+    private TableColumn<Rental, Date> rentalDate;
+
+    @FXML
+    private TableColumn<Rental, Date> rentalDue;
+
+    @FXML
+    private TableColumn<Rental, Date> rentalReturn;
+
+    @FXML
+    private TextField inputRentalCustomerId;
+
+    @FXML
+    private TextField inputRentalName;
+
+    @FXML
+    private TextField inputRentalPhone;
+
+    @FXML
+    private TextField inputRentalPrice;
+
+    @FXML
+    private DatePicker inputRentalDate;
+
+    @FXML
+    private DatePicker inputDueDate;
+
+    @FXML
+    private Label labelBookId;
+
+    @FXML
+    private Label labelTitleBook;
+
+    @FXML
+    private TextField inputCustomerId;
 
     private ObservableList<Book> listBooks;
+    private ObservableList<Customer> listCustomers;
+    private ObservableList<Rental> listRental;
     private Connection connect;
     private Statement statement;
     private PreparedStatement prepare;
@@ -186,7 +249,20 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
+    public ObservableList<Customer> getCustomerData() {
+        try {
+            return GetSQL.getCustomer();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public ObservableList<Rental> getRentalData() {
+        try {
+            return GetSQL.getRental();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void showListBook() {
         listBooks = this.getBookData();
 
@@ -236,9 +312,6 @@ public class MainController implements Initializable {
     }
 
     public void addListBook() {
-        Date date = new Date();
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
         String sql = "INSERT INTO book (id, title, author, publiser, public_year, genre, quantity, price, image)" +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         connect = GetSQL.connectDb();
@@ -297,8 +370,8 @@ public class MainController implements Initializable {
                     alert.setContentText("Successfully Added!");
                     alert.showAndWait();
 
-                    showListBook();
-                    resetListBook();
+                    this.showListBook();
+                    this.resetListData();
                 }
             }
         } catch (Exception e) {
@@ -306,7 +379,7 @@ public class MainController implements Initializable {
         }
     }
 
-    public void resetListBook() {
+    public void resetListData() {
         inputBookId.setText("");
         inputTitle.setText("");
         inputAuthor.setText("");
@@ -319,17 +392,24 @@ public class MainController implements Initializable {
         importImg.setImage(null);
         path = "";
 
-        inputManageId.setText("");
-        inputManageTitle.setText("");
-        inputManageQuantity.setText("");
-        inputManagePrice.setText("");
-        inputManageRental.setText("");
-        inputManageDate.setValue(null);
+        inputCustomerId.setText("");
+        inputName.setText("");
+        inputPhone.setText("");
+        inputAddress.setText("");
+        inputEmail.setText("");
 
+        labelBookId.setText("");
+        labelTitleBook.setText("");
+        inputRentalCustomerId.setText("");
+        inputRentalName.setText("");
+        inputRentalPhone.setText("");
+        inputRentalPrice.setText("");
+        inputRentalDate.setValue(null);
+        inputDueDate.setValue(null);
     }
 
     public void updateListBook() {
-        String uri = path.replace("\\", "\\\\"); // Chỉ cần sử dụng replace một lần
+        String uri = path.replace("\\", "\\\\");
 
         String sql = "UPDATE book SET title = ?, author = ?, publiser = ?, public_year = ?, genre = ?, quantity = ?, price = ?, image = ? WHERE id = ?";
 
@@ -344,7 +424,8 @@ public class MainController implements Initializable {
                     inputPublicYear.getValue() == null ||
                     inputGenre.getText().isEmpty() ||
                     inputQuantity.getText().isEmpty() ||
-                    inputPrice.getText().isEmpty()) {
+                    inputPrice.getText().isEmpty() ||
+                    uri.isEmpty()) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -370,7 +451,6 @@ public class MainController implements Initializable {
                         prepare.setString(8, uri);
                         prepare.setInt(9, Integer.parseInt(inputBookId.getText()));
 
-                        // Thực hiện cập nhật
                         int rowsAffected = prepare.executeUpdate();
                         if (rowsAffected > 0) {
                             alert = new Alert(AlertType.INFORMATION);
@@ -378,8 +458,8 @@ public class MainController implements Initializable {
                             alert.setHeaderText(null);
                             alert.setContentText("Successfully Updated!");
                             alert.showAndWait();
-                            showListBook();
-                            resetListBook();
+                            this.showListBook();
+                            this.resetListData();
                         } else {
                             alert = new Alert(AlertType.ERROR);
                             alert.setTitle("Error Message");
@@ -397,68 +477,38 @@ public class MainController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("An error occurred while updating the book: " + e.getMessage());
             alert.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (connect != null && !connect.isClosed()) {
-                    connect.close(); // Đóng kết nối nếu còn mở
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
     public void deleteListBook() {
-
+        Alert alert;
         String sql = "DELETE FROM book WHERE id = '"
                 + inputBookId.getText() + "'";
 
         connect = GetSQL.connectDb();
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cofirmation Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to DELETE book ID: " + inputBookId.getText() + "?");
+        Optional<ButtonType> option = alert.showAndWait();
 
-        try {
-
-            Alert alert;
-            if (inputBookId.getText().isEmpty() ||
-                    inputTitle.getText().isEmpty() ||
-                    inputAuthor.getText().isEmpty() ||
-                    inputPubliser.getText().isEmpty() ||
-                    inputPublicYear.getValue() == null ||
-                    inputGenre.getText().isEmpty() ||
-                    inputQuantity.getText().isEmpty() ||
-                    inputPrice.getText().isEmpty()) {
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
-                alert.showAndWait();
-            } else {
-                alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Cofirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to DELETE book ID: " + inputBookId.getText() + "?");
-                Optional<ButtonType> option = alert.showAndWait();
-
-                if (option.get().equals(ButtonType.OK)) {
-                    statement = connect.createStatement();
-                    statement.executeUpdate(sql);
-
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Deleted!");
-                    alert.showAndWait();
-
-                    showListBook();
-                    resetListBook();
-                }
+        if (option.get().equals(ButtonType.OK)) {
+            try {
+                statement = connect.createStatement();
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully Deleted!");
+            alert.showAndWait();
 
+            this.showListBook();
+            this.resetListData();
+        }
     }
 
     public void searchBook() {
@@ -475,25 +525,12 @@ public class MainController implements Initializable {
 
                 String searchKey = newValue.toLowerCase();
 
-                if (predicateBookData.getId().toString().contains(searchKey)) {
-                    return true;
-                } else if (predicateBookData.getTitle().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (predicateBookData.getAuthor().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (predicateBookData.getPubliser().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (predicateBookData.getPublicYear().toString().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (predicateBookData.getGenre().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (predicateBookData.getQuantity().toString().contains(searchKey)) {
-                    return true;
-                } else if (predicateBookData.getPrice().toString().contains(searchKey)) {
-                    return true;
+                if(searchKey.matches("\\d+")) {
+                    return predicateBookData.getId().toString().contains(searchKey);
                 } else {
-                    return false;
+                    return predicateBookData.getTitle().toLowerCase().contains(searchKey);
                 }
+
             });
         });
 
@@ -503,57 +540,154 @@ public class MainController implements Initializable {
         bookDetail.setItems(sortList);
     }
 
-    public void selectRentalBook() {
-        Book book = rentalDetail.getSelectionModel().getSelectedItem();
-        int num = rentalDetail.getSelectionModel().getSelectedIndex();
+    public double getRentalPrice(double price, int quantity) {
+        double rentalValue = (quantity != 0) ? (price * 0.2 / quantity ) : 0.0;
+        rentalValue = Math.round(rentalValue * 100.0) / 100.0;
+        if(rentalValue > 20) rentalValue = 20;
+        if(rentalValue < 2 ) rentalValue = 2;
+        return rentalValue;
+    }
+
+    public void rentalBtn() {
+        int num = bookDetail.getSelectionModel().getSelectedIndex();
 
         if(num < 0) return;
 
-        inputManageId.setText(String.valueOf(book.getId()));
-        inputManageTitle.setText(book.getTitle());
-        inputManageQuantity.setText(String.valueOf(book.getQuantity()));
-        inputManagePrice.setText(String.valueOf(book.getPrice()));
+        home_form.setVisible(false);
+        book_form.setVisible(false);
+        rental_form.setVisible(true);
 
-        inputManageRental.setText(String.valueOf(book.getRental()));
-        if(book.getRentalDay() == null) {
-            inputManageDate.setValue(null);
-        } else {
-            inputManageDate.setValue(book.getRentalDay().toLocalDate());
+        rentalManagement.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+        bookStorage.setStyle("-fx-background-color:transparent;");
+        home.setStyle("-fx-background-color:transparent;");
 
-        }
+        double rentalPrice = getRentalPrice(Double.parseDouble(inputPrice.getText()), Integer.parseInt(inputQuantity.getText()));
+
+        labelBookId.setText(inputBookId.getText());
+        labelTitleBook.setText(inputTitle.getText());
+
+        inputRentalPrice.setText(String.valueOf(rentalPrice));
+        inputRentalDate.setValue(LocalDate.now());
+
+        this.showListRental();
     }
 
-    public void showRentalListBook() {
-        listBooks = this.getBookData();
+    public void cancelBtn() {
+        home_form.setVisible(false);
+        book_form.setVisible(true);
+        rental_form.setVisible(false);
+        customer_form.setVisible(false);
 
-        manageBookId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        manageTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        manageQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        managePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        manageRental.setCellValueFactory(cellData -> {
-            Book book = cellData.getValue();
-            return new SimpleDoubleProperty(book.getRental()).asObject();
-        });
-        manageIsRental.setCellValueFactory(new PropertyValueFactory<>("rentalDay"));
+        bookStorage.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+        home.setStyle("-fx-background-color:transparent;");
+        rentalManagement.setStyle("-fx-background-color:transparent;");
+        customerManagement.setStyle("-fx-background-color:transparent;");
 
-        rentalDetail.setItems(listBooks);
+        this.showListBook();
+        this.searchBook();
+        this.resetListData();
     }
 
-    public void updateRentalListBook() {
+    public void showListCustomer() {
+        listCustomers = this.getCustomerData();
 
-        String sql = "UPDATE book SET title = ?, quantity = ?, price = ?, rental_day = ? WHERE id = ?";
+        customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        customerPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        customerAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
+        customerView.setItems(listCustomers);
+    }
+
+    public void selectCustomer() {
+        Customer customer = customerView.getSelectionModel().getSelectedItem();
+        int num = customerView.getSelectionModel().getSelectedIndex();
+
+        if(num < 0) return;
+
+        inputCustomerId.setText(String.valueOf(customer.getCustomerId()));
+        inputName.setText(customer.getFullName());
+        inputPhone.setText(customer.getPhone());
+        inputAddress.setText(customer.getAddress());
+        inputEmail.setText(customer.getEmail());
+
+    }
+
+    public void addListCustomer() {
+        String sql = "INSERT INTO customer (customerId, fullName, phone, address, email)" +
+                "VALUES (?, ?, ?, ?, ?)";
         connect = GetSQL.connectDb();
 
         try {
             Alert alert;
-            if (inputManageId.getText().isEmpty() ||
-                    inputManageTitle.getText().isEmpty() ||
-                    inputManageQuantity.getText().isEmpty() ||
-                    inputManagePrice.getText().isEmpty() ||
-                    inputManageRental.getText().isEmpty() ||
-                    inputManageDate.getValue() == null)
-            {
+            if(inputCustomerId.getText().isEmpty()
+                    || inputName.getText().isEmpty()
+                    || inputPhone.getText().isEmpty()
+                    || inputAddress.getText().isEmpty()
+                    || inputEmail.getText().isEmpty()
+            ) {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            } else {
+                String check = "SELECT customerID FROM customer WHERE customerID = '"
+                        + inputCustomerId.getText() + "'";
+
+                statement = connect.createStatement();
+                result = statement.executeQuery(check);
+
+                if (result.next()) {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Customer ID: " + inputCustomerId.getText() + " was already exist!");
+                    alert.showAndWait();
+                } else {
+                    assert connect != null;
+                    prepare = connect.prepareStatement(sql);
+                    prepare.setInt(1, Integer.parseInt(inputCustomerId.getText()));
+                    prepare.setString(2, inputName.getText());
+                    prepare.setString(3, inputPhone.getText());
+                    prepare.setString(4, inputAddress.getText());
+
+                    if(inputEmail.getText().contains("@")) {
+                        prepare.setString(5, inputEmail.getText());
+                    } else {
+                        prepare.setString(5, inputEmail.getText() + "@gmail.com");
+                    }
+
+                    prepare.executeUpdate();
+
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Added!");
+                    alert.showAndWait();
+
+                    this.showListCustomer();
+                    this.resetListData();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateListCustomer() {
+        String sql = "UPDATE customer SET fullName = ?, phone = ?, address = ?, email = ? WHERE customerId = ?";
+        connect = GetSQL.connectDb();
+
+        try {
+            Alert alert;
+            if(inputCustomerId.getText().isEmpty()
+                    || inputName.getText().isEmpty()
+                    || inputPhone.getText().isEmpty()
+                    || inputAddress.getText().isEmpty()
+                    || inputEmail.getText().isEmpty()
+            ) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -563,17 +697,22 @@ public class MainController implements Initializable {
                 alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to UPDATE Book ID: " + inputManageId.getText() + "?");
+                alert.setContentText("Are you sure you want to UPDATE customerId: " + inputCustomerId.getText() + "?");
                 Optional<ButtonType> option = alert.showAndWait();
 
                 if (option.isPresent() && option.get().equals(ButtonType.OK)) {
                     // Prepare statement
                     try (PreparedStatement prepare = connect.prepareStatement(sql)) {
-                        prepare.setString(1, inputManageTitle.getText());
-                        prepare.setInt(2, Integer.parseInt(inputManageQuantity.getText()));
-                        prepare.setDouble(3, Double.parseDouble(inputManagePrice.getText()));
-                        prepare.setDate(4, java.sql.Date.valueOf(inputManageDate.getValue()));
-                        prepare.setInt(5, Integer.parseInt(inputManageId.getText()));
+                        prepare.setString(1, inputName.getText());
+                        prepare.setString(2, inputPhone.getText());
+                        prepare.setString(3, inputAddress.getText());
+                        if(inputEmail.getText().contains("@")) {
+                            prepare.setString(4, inputEmail.getText());
+                        } else {
+                            prepare.setString(4, inputEmail.getText() + "@gmail.com");
+                        }
+
+                        prepare.setString(5, inputCustomerId.getText());
 
                         int rowsAffected = prepare.executeUpdate();
                         if (rowsAffected > 0) {
@@ -582,53 +721,280 @@ public class MainController implements Initializable {
                             alert.setHeaderText(null);
                             alert.setContentText("Successfully Updated!");
                             alert.showAndWait();
-                            showRentalListBook();
-                            resetListBook();
+                            this.showListCustomer();
+                            this.resetListData();
                         } else {
                             alert = new Alert(AlertType.ERROR);
                             alert.setTitle("Error Message");
                             alert.setHeaderText(null);
-                            alert.setContentText("No book found with the provided ID.");
+                            alert.setContentText("No customer found with the selected.");
                             alert.showAndWait();
                         }
                     }
                 }
             }
-
-            showRentalListBook();
-
         } catch (SQLException e) {
             e.printStackTrace();
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("SQL Error");
             alert.setHeaderText(null);
-            alert.setContentText("An error occurred while updating the book: " + e.getMessage());
+            alert.setContentText("An error occurred while updating the customer: " + e.getMessage());
             alert.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (connect != null && !connect.isClosed()) {
-                    connect.close(); // Đóng kết nối nếu còn mở
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    public void deleteRentalListBook() {
-        String sql = "DELETE FROM book WHERE id = '"
-                + inputManageId.getText() + "'";
+    public void deleteListCustomer() {
+        Alert alert;
+        int id = customerView.getSelectionModel().getSelectedIndex() + 1;
+
+        String sql = "DELETE FROM customer WHERE customerId = '"
+                + id + "'";
+
+        connect = GetSQL.connectDb();
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cofirmation Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to DELETE customer ID: " + id + "?");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.get().equals(ButtonType.OK)) {
+            try {
+                statement = connect.createStatement();
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully Deleted!");
+            alert.showAndWait();
+
+            this.showListCustomer();
+            this.resetListData();
+        }
+    }
+
+    public void setSearchCustomer() {
+
+        FilteredList<Customer> filter = new FilteredList<>(listCustomers, e -> true);
+
+        searchCustomer.textProperty().addListener((Observable, oldValue, newValue) -> {
+
+            filter.setPredicate(predicateCustomerData -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if(searchKey.matches("\\d+")) {
+                    return predicateCustomerData.getPhone().toLowerCase().contains(searchKey);
+                } else if(predicateCustomerData.getEmail().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else return predicateCustomerData.getFullName().toLowerCase().contains(searchKey);
+            });
+        });
+
+        SortedList<Customer> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(customerView.comparatorProperty());
+        customerView.setItems(sortList);
+    }
+
+    public void getRetalPhone() {
+
+        String sql = "SELECT customerId, fullName FROM customer WHERE phone = '" + inputRentalPhone.getText() + "'";
+        connect = GetSQL.connectDb();
+//
+        String check = "SELECT phone FROM customer WHERE phone = '"
+                + inputRentalPhone.getText() + "'";
+
+        try {
+            assert connect != null;
+            statement = connect.createStatement();
+            result = statement.executeQuery(check);
+
+            if(result.next()) {
+                PreparedStatement prepared = connect.prepareStatement(sql);
+                ResultSet newResult = prepared.executeQuery();
+                if(newResult.next()) {
+                    inputRentalName.setText(newResult.getString("fullName"));
+                    inputRentalCustomerId.setText(String.valueOf(newResult.getInt(("customerId"))));
+                }
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("The phone number you entered could not be found");
+                alert.showAndWait();
+                inputRentalPhone.setText("");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void getRetalCustomerId() {
+
+        String sql = "SELECT fullName, phone FROM customer WHERE customerId = '" + inputRentalCustomerId.getText() + "'";
+        connect = GetSQL.connectDb();
+//
+        String check = "SELECT customerId FROM customer WHERE customerId = '"
+                + inputRentalCustomerId.getText() + "'";
+
+        try {
+            assert connect != null;
+            statement = connect.createStatement();
+            result = statement.executeQuery(check);
+
+            if(result.next()) {
+                PreparedStatement prepared = connect.prepareStatement(sql);
+                ResultSet newResult = prepared.executeQuery();
+                if(newResult.next()) {
+                    inputRentalName.setText(newResult.getString("fullName"));
+                    inputRentalPhone.setText(newResult.getString(("phone")));
+                }
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("The CustomerId you entered could not be found");
+                alert.showAndWait();
+                inputRentalCustomerId.setText("");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void showListRental() {
+        listRental = this.getRentalData();
+
+        rentalId.setCellValueFactory(cellData -> {
+            int rowIndex = cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1;
+            return new SimpleIntegerProperty(rowIndex).asObject();
+        });
+        rentalCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        rentalName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        rentalPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        rentalTitleBook.setCellValueFactory(new PropertyValueFactory<>("title"));
+        rentalPrice.setCellValueFactory(new PropertyValueFactory<>("rentalPrice"));
+        rentalDate.setCellValueFactory(new PropertyValueFactory<>("rentalDate"));
+        rentalDue.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        rentalReturn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+
+        rentalDetail.setItems(listRental);
+    }
+
+    public void addListRental() {
 
         connect = GetSQL.connectDb();
 
         try {
             Alert alert;
-            if (inputManageId.getText().isEmpty() ||
-                    inputManageTitle.getText().isEmpty() ||
-                    inputManageQuantity.getText().isEmpty() ||
-                    inputManagePrice.getText().isEmpty()) {
+            if(inputRentalCustomerId.getText().isEmpty()
+                    || inputRentalName.getText().isEmpty()
+                    || inputRentalPhone.getText().isEmpty()
+                    || inputRentalPrice.getText().isEmpty()
+                    || inputRentalDate.getValue() == null
+                    || inputDueDate.getValue() == null
+            ) {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            } else {
+                String updateQuantitySQL = "UPDATE book SET quantity = ? WHERE id = '" + labelBookId.getText() + "'";
+
+                String check = "SELECT quantity FROM book WHERE id = '"
+                        + labelBookId.getText() + "'";
+
+                statement = connect.createStatement();
+                result = statement.executeQuery(check);
+
+                if (result.next()) {
+                    if(result.getInt("quantity") < 1) {
+                        alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Error Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("The product is out of stock, please choose another product");
+                        alert.showAndWait();
+                        this.rentalBtn();
+                        return;
+                    }
+
+                }
+                String sql = "INSERT INTO rental (customerId, fullName, phone, bookId, title, rentalPrice, rentalDate, dueDate)" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                assert connect != null;
+                prepare = connect.prepareStatement(sql);
+                prepare.setInt(1, Integer.parseInt(inputRentalCustomerId.getText()));
+                prepare.setString(2, inputRentalName.getText());
+                prepare.setString(3, inputRentalPhone.getText());
+                prepare.setInt(4, Integer.parseInt(labelBookId.getText()));
+                prepare.setString(5, labelTitleBook.getText());
+                prepare.setDouble(6, Double.parseDouble(inputRentalPrice.getText()));
+                prepare.setDate(7, java.sql.Date.valueOf(inputRentalDate.getValue()));
+                prepare.setDate(8, java.sql.Date.valueOf(inputDueDate.getValue()));
+
+                prepare.executeUpdate();
+
+                PreparedStatement prepareUpdate = connect.prepareStatement(updateQuantitySQL);
+                prepareUpdate.setInt(1, result.getInt("quantity") - 1);
+
+                prepareUpdate.executeUpdate();
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Successfully Added!");
+                alert.showAndWait();
+
+                this.showListRental();
+                this.resetListData();
+
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void selectRental() {
+        Rental rental = rentalDetail.getSelectionModel().getSelectedItem();
+        int num = rentalDetail.getSelectionModel().getSelectedIndex();
+
+        if(num < 0) return;
+
+        labelBookId.setText(String.valueOf(rental.getId()));
+        labelTitleBook.setText(rental.getTitle());
+        inputRentalCustomerId.setText(String.valueOf(rental.getCustomerId()));
+        inputRentalName.setText(rental.getFullName());
+        inputRentalPhone.setText(rental.getPhone());
+        inputRentalPrice.setText(String.valueOf(rental.getRentalPrice()));
+        inputRentalDate.setValue(rental.getRentalDate().toLocalDate());
+        inputDueDate.setValue(rental.getDueDate().toLocalDate());
+
+    }
+
+    public void updateListRental() {
+        Rental rental = rentalDetail.getSelectionModel().getSelectedItem();
+        connect = GetSQL.connectDb();
+        try {
+            Alert alert;
+            if(inputRentalCustomerId.getText().isEmpty()
+                    || inputRentalName.getText().isEmpty()
+                    || inputRentalPhone.getText().isEmpty()
+                    || inputRentalPrice.getText().isEmpty()
+                    || inputRentalDate.getValue() == null
+                    || inputDueDate.getValue() == null
+            ) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -636,58 +1002,24 @@ public class MainController implements Initializable {
                 alert.showAndWait();
             } else {
                 alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Cofirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to DELETE book ID: " + inputManageId.getText() + "?");
-                Optional<ButtonType> option = alert.showAndWait();
-
-                if (option.get().equals(ButtonType.OK)) {
-                    statement = connect.createStatement();
-                    statement.executeUpdate(sql);
-
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Deleted!");
-                    alert.showAndWait();
-
-                    this.showRentalListBook();
-
-                    resetListBook();
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void returnRentalBook() {
-        String sql = "UPDATE book set rental_day = ? WHERE id = ?";
-
-        connect = GetSQL.connectDb();
-
-        try {
-            Alert alert;
-            if (inputManageDate.getValue() == null)
-            {
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Rental day is not empty");
-                alert.showAndWait();
-            } else {
-                alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to RETURN Book ID: " + inputManageId.getText() + "?");
+                alert.setContentText("Are you sure you want to UPDATE rental ID: " + rental.getId() + "?");
                 Optional<ButtonType> option = alert.showAndWait();
 
                 if (option.isPresent() && option.get().equals(ButtonType.OK)) {
+                    String sql = "UPDATE rental SET customerId = ?, fullName = ?, phone = ?, rentalPrice = ?, rentalDate = ?, dueDate = ? WHERE id = ?";
+
                     try (PreparedStatement prepare = connect.prepareStatement(sql)) {
-                        prepare.setDate(1, null);
-                        prepare.setInt(2, Integer.parseInt(inputManageId.getText()));
+                        prepare.setString(1, inputRentalCustomerId.getText());
+                        prepare.setString(2, inputRentalName.getText());
+                        prepare.setString(3, inputRentalPhone.getText());
+
+
+                        prepare.setDouble(4, Double.parseDouble(inputRentalPrice.getText()));
+                        prepare.setDate(5, java.sql.Date.valueOf(inputRentalDate.getValue()));
+                        prepare.setDate(6, java.sql.Date.valueOf(inputDueDate.getValue()));
+                        prepare.setInt(7, rental.getId());
 
                         int rowsAffected = prepare.executeUpdate();
                         if (rowsAffected > 0) {
@@ -696,99 +1028,205 @@ public class MainController implements Initializable {
                             alert.setHeaderText(null);
                             alert.setContentText("Successfully Updated!");
                             alert.showAndWait();
-                            showRentalListBook();
-                            resetListBook();
+                            this.showListRental();
+                            this.resetListData();
                         } else {
                             alert = new Alert(AlertType.ERROR);
                             alert.setTitle("Error Message");
                             alert.setHeaderText(null);
-                            alert.setContentText("No book found with the provided ID.");
+                            alert.setContentText("No customer found with the selected.");
                             alert.showAndWait();
                         }
                     }
                 }
             }
-
-            showRentalListBook();
-
         } catch (SQLException e) {
             e.printStackTrace();
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("SQL Error");
             alert.setHeaderText(null);
-            alert.setContentText("An error occurred while updating the book: " + e.getMessage());
+            alert.setContentText("An error occurred while updating the customer: " + e.getMessage());
             alert.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (connect != null && !connect.isClosed()) {
-                    connect.close(); // Đóng kết nối nếu còn mở
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
+    public void deleteListRental() {
+        Rental rental = rentalDetail.getSelectionModel().getSelectedItem();
+        Alert alert;
+
+        String sql = "DELETE FROM rental WHERE id = '"
+                + rental.getId() + "'";
+
+        connect = GetSQL.connectDb();
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cofirmation Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to DELETE rental ID: " +  rental.getId() + "?");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.get().equals(ButtonType.OK)) {
+            try {
+                statement = connect.createStatement();
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully Deleted!");
+            alert.showAndWait();
+
+            this.showListRental();
+            this.resetListData();
+        }
+    }
+
+    public void returnListRental() {
+        Rental rental = rentalDetail.getSelectionModel().getSelectedItem();
+        int num = rentalDetail.getSelectionModel().getSelectedIndex();
+        if(num < 0) return;
+        connect = GetSQL.connectDb();
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to return: " + rental.getTitle() + " is rented by " + rental.getFullName() + "?");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.isPresent() && option.get().equals(ButtonType.OK)) {
+            String sql = "UPDATE rental SET returnDate = ? WHERE id = ?";
+            String updateQuantitySQL = "UPDATE book SET quantity = ? WHERE id = '" + rental.getIdBook() + "'";
+            String getQuantitySQL = "SELECT quantity FROM book WHERE id = '" + rental.getIdBook() + "'";
+            try {
+                PreparedStatement prepare = connect.prepareStatement(sql);
+                prepare.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
+                prepare.setInt(2, rental.getId());
+
+                statement = connect.createStatement();
+                result = statement.executeQuery(getQuantitySQL);
+                result.next();
+                PreparedStatement prepareUpdate = connect.prepareStatement(updateQuantitySQL);
+                prepareUpdate.setInt(1, result.getInt("quantity") + 1);
+
+                prepareUpdate.executeUpdate();
+
+                int rowsAffected = prepare.executeUpdate();
+                if (rowsAffected > 0) {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Updated!");
+                    alert.showAndWait();
+                    this.showListRental();
+                    this.resetListData();
+                } else {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No customer found with the selected.");
+                    alert.showAndWait();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    public void getTotalBook() {
+        String totalBookSQL = "SELECT COUNT(id) FROM book";
+        String totalRentalSQL = "SELECT COUNT(id) FROM rental";
+
+        connect = GetSQL.connectDb();
+        int countData = 0;
+        try {
+            statement = connect.createStatement();
+            result = statement.executeQuery(totalBookSQL);
+
+            while (result.next()) {
+                countData = result.getInt("COUNT(id)");
+            }
+            numOfBooks.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void getTotalRental() {
+        String totalRentalSQL = "SELECT COUNT(id) FROM rental";
+
+        connect = GetSQL.connectDb();
+        int countData = 0;
+        try {
+            statement = connect.createStatement();
+            result = statement.executeQuery(totalRentalSQL);
+
+            while (result.next()) {
+                countData = result.getInt("COUNT(id)");
+            }
+            numOfRental.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     public void switchForm(ActionEvent e) {
         if(e.getSource() == home) {
             home_form.setVisible(true);
             book_form.setVisible(false);
             rental_form.setVisible(false);
+            customer_form.setVisible(false);
 
             home.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
-            bookSotorage.setStyle("-fx-background-color:transparent;");
+            bookStorage.setStyle("-fx-background-color:transparent;");
             rentalManagement.setStyle("-fx-background-color:transparent;");
-
-            this.totalBooks();
-            
-        } else if(e.getSource() == bookSotorage) {
-            home_form.setVisible(false);
-            book_form.setVisible(true);
-            rental_form.setVisible(false);
-
-            bookSotorage.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
-            home.setStyle("-fx-background-color:transparent;");
-            rentalManagement.setStyle("-fx-background-color:transparent;");
-            this.showListBook();
-            searchBook();
+            customerManagement.setStyle("-fx-background-color:transparent;");
+            this.getTotalBook();
+            this.getTotalRental();
+        } else if(e.getSource() == bookStorage) {
+            this.cancelBtn();
         } else if(e.getSource() == rentalManagement) {
             home_form.setVisible(false);
             book_form.setVisible(false);
             rental_form.setVisible(true);
+            customer_form.setVisible(false);
 
             rentalManagement.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
-            bookSotorage.setStyle("-fx-background-color:transparent;");
+            bookStorage.setStyle("-fx-background-color:transparent;");
             home.setStyle("-fx-background-color:transparent;");
-            this.showRentalListBook();
+            customerManagement.setStyle("-fx-background-color:transparent;");
 
+            this.showListRental();
+        } else if(e.getSource() == customerManagement) {
+            home_form.setVisible(false);
+            book_form.setVisible(false);
+            rental_form.setVisible(false);
+            customer_form.setVisible(true);
+
+            customerManagement.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+            bookStorage.setStyle("-fx-background-color:transparent;");
+            home.setStyle("-fx-background-color:transparent;");
+            rentalManagement.setStyle("-fx-background-color:transparent;");
+
+            this.showListCustomer();
         }
     }
-
-    public void totalBooks() {
-        listBooks = this.getBookData();
-        int total = listBooks.size();
-
-        int count = 0;
-        for(Book list : listBooks) {
-            if (list.getRentalDay() != null) count++;
-        }
-
-        numOfRental.setText(String.valueOf(count));
-        numOfBooks.setText(String.valueOf(total));
-    }
-
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        bookDetail.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        rentalDetail.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        home.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+        this.getTotalBook();
+        this.getTotalRental();
 
-        this.totalBooks();
+        inputRentalPhone.setOnAction(event -> this.getRetalPhone());
+        inputRentalCustomerId.setOnAction(event -> this.getRetalCustomerId());
         this.showListBook();
-        this.showRentalListBook();
     }
 
 
