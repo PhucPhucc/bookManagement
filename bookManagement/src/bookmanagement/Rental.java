@@ -1,6 +1,5 @@
 package bookmanagement;
 
-
 import java.sql.Date;
 
 public class Rental {

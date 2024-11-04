@@ -1,5 +1,4 @@
 
-
 .nav {
     -fx-background-color: linear-gradient(to bottom right, #222, #ccc);
 }
@@ -10,7 +9,7 @@
 }
 
 .nav-btn{
-    -fx-background-color:transparent;
+    -fx-background-color: transparent;
     -fx-cursor:hand;
     -fx-font-family:"Arial";
     -fx-font-size:18px;
@@ -19,12 +18,8 @@
     -fx-background-radius: 6px;
 }
 
-.nav-btn:hover {
-    -fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);
-}
-
 .card{
-    -fx-background-color:linear-gradient(to right, #ffff66, #28966c);
+    -fx-background-color:linear-gradient(to right, #7d97a5, #c2c7c995);
     -fx-background-radius: 8px;
 }
 
@@ -98,8 +93,6 @@
     -fx-text-fill: #fff;
 }
 
-
-
 .add-btn{
     -fx-background-color:#304575;
     -fx-text-fill:#fff;
@@ -139,8 +132,16 @@
 }
 
 .btn {
+    -fx-background-color:#000;
+    -fx-text-fill:#fff;
     -fx-background-radius:4px;
     -fx-font-size:12px;
     -fx-font-family:"Arial";
     -fx-cursor:hand;
+    -fx-font-weight: 700;
+}
+
+.btn:hover {
+    -fx-background-color:#ccc;
+    -fx-text-fill:#000;
 }

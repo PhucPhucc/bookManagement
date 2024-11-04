@@ -15,9 +15,6 @@ public class Book {
     private Double price;
     private String image;
 
-
-
-
     public Book(Integer id, String title, String author, String publiser, Date publicYear, String genre, Integer quantity, Double price, String image) {
         this.id = id;
         this.title = title;
@@ -103,12 +100,5 @@ public class Book {
 
     public void setImage(String image) {
         this.image = image;
-    }
-    public double getRentalPrice() {
-        double rentalValue = (quantity != null && quantity != 0) ? (price / (quantity * 2) ) : 0.0;
-        rentalValue = Math.round(rentalValue * 100.0) / 100.0;
-        if(rentalValue > 20) rentalValue = 20;
-        if(rentalValue < 2 ) rentalValue = 2;
-        return rentalValue;
     }
 }

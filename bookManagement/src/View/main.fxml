@@ -3,8 +3,9 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.StackedAreaChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -49,7 +50,6 @@
                   </Button>
                </children>
             </VBox>
-            <Button fx:id="logOut" layoutX="21.0" layoutY="852.0" mnemonicParsing="false" style="-fx-font-weight: 700; -fx-font-size: 20; -fx-padding: 8 16;" styleClass="nav-btn" text="Log out" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="home_form" layoutX="759.0" layoutY="255.0" prefHeight="200.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -86,21 +86,21 @@
             </HBox>
             <AnchorPane layoutX="536.0" layoutY="501.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
                <children>
-                  <StackedAreaChart fx:id="chartBook" layoutX="310.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="70.0">
+                  <BarChart fx:id="chartBook" layoutX="90.0" layoutY="42.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="50.0">
                     <xAxis>
-                      <NumberAxis side="BOTTOM" />
+                      <CategoryAxis side="BOTTOM" />
                     </xAxis>
                     <yAxis>
                       <NumberAxis side="LEFT" />
                     </yAxis>
-                  </StackedAreaChart>
+                  </BarChart>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="book_form" layoutX="759.0" layoutY="284.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane layoutX="379.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="379.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TextField fx:id="searchBox" layoutX="66.0" layoutY="37.0" onInputMethodTextChanged="#searchBook" prefHeight="40.0" prefWidth="400.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
                   <TableView fx:id="bookDetail" editable="true" layoutX="488.0" layoutY="177.0" onMouseClicked="#selectBook" prefHeight="200.0" prefWidth="200.0" styleClass="shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="90.0">
@@ -115,11 +115,16 @@
                         <TableColumn fx:id="bookPrice" prefWidth="120.0" text="Price" />
                     </columns>
                   </TableView>
+                  <Button fx:id="addBtn" layoutX="1075.0" layoutY="23.0" mnemonicParsing="false" onAction="#addListBook" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="ADD" AnchorPane.topAnchor="25.0" />
+                  <Button fx:id="updateBtn" layoutX="975.0" layoutY="23.0" mnemonicParsing="false" onAction="#updateListBook" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="UPDATE" AnchorPane.topAnchor="25.0" />
+                  <Button layoutX="775.0" layoutY="41.0" mnemonicParsing="false" onAction="#rentalBtn" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="RENTAL" AnchorPane.topAnchor="25.0" />
+                  <Button fx:id="delBtn" layoutX="875.0" layoutY="42.0" mnemonicParsing="false" onAction="#deleteListBook" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="DELETE" AnchorPane.topAnchor="25.0" />
+                  <Button fx:id="clearBtn" layoutX="675.0" layoutY="21.0" mnemonicParsing="false" onAction="#resetListData" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="CLEAR" AnchorPane.topAnchor="25.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="247.0" layoutY="631.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="600.0">
+            <AnchorPane layoutX="247.0" layoutY="631.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="620.0">
                <children>
-                  <Pane layoutX="120.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="0.0">
+                  <Pane layoutX="120.0" layoutY="94.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="30.0">
                      <children>
                         <TextField fx:id="inputBookId" layoutX="150.0" layoutY="25.0" prefHeight="29.0" prefWidth="240.0" />
                         <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Book Id:" />
@@ -131,7 +136,7 @@
                         <TextField fx:id="inputGenre" layoutX="150.0" layoutY="175.0" prefHeight="29.0" prefWidth="240.0" />
                      </children>
                   </Pane>
-                  <Pane layoutX="688.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
+                  <Pane layoutX="688.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="30.0">
                      <children>
                         <TextField fx:id="inputPubliser" layoutX="175.0" layoutY="25.0" prefHeight="29.0" prefWidth="240.0" />
                         <Label layoutX="50.0" layoutY="25.0" styleClass="label_input" text="Publiser:" />
@@ -143,7 +148,7 @@
                         <DatePicker fx:id="inputPublicYear" layoutX="175.0" layoutY="75.0" prefHeight="29.0" prefWidth="240.0" />
                      </children>
                   </Pane>
-                  <Pane layoutX="688.0" layoutY="33.0" maxHeight="240.0" maxWidth="154.0" prefHeight="240.0" prefWidth="154.0" style="-fx-border-color: #333; -fx-border-width: 2;" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="1000.0" AnchorPane.topAnchor="25.0">
+                  <Pane layoutX="688.0" layoutY="33.0" maxHeight="240.0" maxWidth="154.0" prefHeight="240.0" prefWidth="154.0" style="-fx-border-color: #333; -fx-border-width: 2;" AnchorPane.leftAnchor="960.0" AnchorPane.topAnchor="25.0">
                      <children>
                         <ImageView fx:id="importImg" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="shadow" x="2.0" y="2.0">
                            <viewport>
@@ -153,42 +158,13 @@
                         <Button fx:id="importImgBtn" layoutX="2.0" layoutY="198.0" mnemonicParsing="false" onAction="#insertImage" prefHeight="40.0" prefWidth="150.0" style="-fx-font-size: 18px; -fx-padding: 0;" styleClass="import-btn" text="Import image" />
                      </children>
                   </Pane>
-                  <HBox fillHeight="false" layoutX="408.0" layoutY="242.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="225.0">
-                     <children>
-                        <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#resetListData" prefHeight="50.0" prefWidth="100.0" styleClass="clear-btn" text="CLEAR">
-                           <HBox.margin>
-                              <Insets left="245.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="delBtn" mnemonicParsing="false" onAction="#deleteListBook" prefHeight="50.0" prefWidth="100.0" styleClass="delete-btn" text="DELETE">
-                           <HBox.margin>
-                              <Insets left="30.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#rentalBtn" prefHeight="50.0" prefWidth="100.0" styleClass="rental-btn" text="RENTAL">
-                           <HBox.margin>
-                              <Insets left="30.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="updateBtn" layoutX="285.0" layoutY="35.0" mnemonicParsing="false" onAction="#updateListBook" prefHeight="50.0" prefWidth="100.0" styleClass="update-btn" text="UPDATE">
-                           <HBox.margin>
-                              <Insets left="30.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="addBtn" layoutX="460.0" layoutY="35.0" mnemonicParsing="false" onAction="#addListBook" prefHeight="50.0" prefWidth="100.0" styleClass="add-btn" text="ADD">
-                           <HBox.margin>
-                              <Insets left="30.0" right="25.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="customer_form" layoutX="933.0" layoutY="243.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane layoutX="25.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #333; -fx-border-radius: 8px;" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="815.0" AnchorPane.topAnchor="85.0">
+            <Pane layoutX="25.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #333; -fx-border-radius: 8px;" AnchorPane.bottomAnchor="475.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="815.0" AnchorPane.topAnchor="85.0">
                <children>
                   <TextField fx:id="inputCustomerId" layoutX="175.0" layoutY="25.0" prefHeight="30.0" prefWidth="180.0" />
                   <Label layoutX="15.0" layoutY="25.0" styleClass="label_input" text="Customer ID:" />
@@ -200,6 +176,9 @@
                   <Label layoutX="15.0" layoutY="175.0" styleClass="label_input" text="Address:" />
                   <TextField fx:id="inputEmail" layoutX="175.0" layoutY="225.0" prefHeight="30.0" prefWidth="180.0" />
                   <Label layoutX="15.0" layoutY="225.0" styleClass="label_input" text="Email:" />
+                  <Button layoutX="250.0" layoutY="280.0" mnemonicParsing="false" onAction="#addListCustomer" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="ADD" />
+                  <Button layoutX="150.0" layoutY="280.0" mnemonicParsing="false" onAction="#updateListCustomer" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="UPDATE" />
+                  <Button layoutX="50.0" layoutY="280.0" mnemonicParsing="false" onAction="#deleteListCustomer" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="DELETE" />
                </children>
             </Pane>
             <AnchorPane layoutX="675.0" layoutY="350.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -208,7 +187,7 @@
                     <columns>
                       <TableColumn fx:id="customerId" prefWidth="50.0" text="STT" />
                       <TableColumn fx:id="customerName" prefWidth="200.0" text="Full Name" />
-                        <TableColumn fx:id="customerPhone" prefWidth="150.0" text="Phone Number" />
+                        <TableColumn fx:id="customerPhone" prefWidth="148.0" text="Phone Number" />
                         <TableColumn fx:id="customerAddress" prefWidth="205.0" text="Address" />
                         <TableColumn fx:id="customerEmail" prefWidth="175.0" text="Email" />
                     </columns>
@@ -216,20 +195,17 @@
                </children>
             </AnchorPane>
             <TextField fx:id="searchCustomer" layoutX="47.0" layoutY="42.0" onInputMethodTextChanged="#setSearchCustomer" onKeyTyped="#setSearchCustomer" prefHeight="35.0" promptText="SEARCH" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="900.0" AnchorPane.topAnchor="30.0" />
-            <Button layoutX="244.0" layoutY="444.0" mnemonicParsing="false" onAction="#addListCustomer" prefHeight="40.0" prefWidth="100.0" styleClass="update-btn" text="ADD" />
-            <Button layoutX="22.0" layoutY="445.0" mnemonicParsing="false" onAction="#deleteListCustomer" prefHeight="40.0" prefWidth="100.0" styleClass="delete-btn" text="DELETE" />
-            <Button layoutX="161.0" layoutY="498.0" mnemonicParsing="false" onAction="#updateListCustomer" prefHeight="40.0" prefWidth="100.0" styleClass="delete-btn" text="UPDATE" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="rental_form" layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane layoutX="379.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="225.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TextField fx:id="searchRental" layoutX="66.0" layoutY="37.0" onInputMethodTextChanged="#searchBook" prefHeight="40.0" prefWidth="400.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                  <TextField fx:id="searchRental" layoutX="66.0" layoutY="37.0" onInputMethodTextChanged="#setSearchRenTal" prefHeight="40.0" prefWidth="400.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
                   <TableView fx:id="rentalDetail" editable="true" layoutX="488.0" layoutY="177.0" onMouseClicked="#selectRental" prefHeight="200.0" prefWidth="200.0" styleClass="shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="90.0">
                      <columns>
-                        <TableColumn fx:id="rentalId" prefWidth="50.0" text="STT" />
-                        <TableColumn fx:id="rentalCustomerId" prefWidth="110.0" text="Customer Id" />
+                        <TableColumn fx:id="rentalId" prefWidth="50.0" text="ID" />
+                        <TableColumn fx:id="rentalCustomerId" prefWidth="108.0" text="Customer Id" />
                         <TableColumn fx:id="rentalName" prefWidth="175.0" text="Name" />
                         <TableColumn fx:id="rentalPhone" prefWidth="140.0" text="Phone" />
                         <TableColumn fx:id="rentalTitleBook" prefWidth="200.0" text="Title Book" />
@@ -239,32 +215,11 @@
                         <TableColumn fx:id="rentalReturn" prefWidth="125.0" text="Return Date" />
                      </columns>
                   </TableView>
-                  <Button layoutX="1026.0" layoutY="22.0" mnemonicParsing="false" onAction="#addListRental" prefHeight="30.0" prefWidth="75.0" text="ADD" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
-                     <styleClass>
-                        <String fx:value="add-btn" />
-                        <String fx:value="btn" />
-                     </styleClass></Button>
-                  <Button layoutX="817.0" layoutY="33.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="75.0" text="CANCEL" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="25.0">
-                     <styleClass>
-                        <String fx:value="rental-btn" />
-                        <String fx:value="btn" />
-                     </styleClass></Button>
-                  <Button layoutX="763.0" layoutY="26.0" mnemonicParsing="false" onAction="#deleteListRental" prefHeight="30.0" prefWidth="75.0" text="DELETE" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="25.0">
-                     <styleClass>
-                        <String fx:value="rental-btn" />
-                        <String fx:value="btn" />
-                     </styleClass></Button>
-                  <Button layoutX="765.0" layoutY="29.0" mnemonicParsing="false" onAction="#updateListRental" prefHeight="30.0" prefWidth="75.0" text="UPDATE" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="25.0">
-                     <styleClass>
-                        <String fx:value="rental-btn" />
-                        <String fx:value="btn" />
-                     </styleClass>
-                  </Button>
-                  <Button layoutX="671.0" layoutY="29.0" mnemonicParsing="false" onAction="#returnListRental" prefHeight="30.0" prefWidth="75.0" text="RETURN" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="25.0">
-                     <styleClass>
-                        <String fx:value="rental-btn" />
-                        <String fx:value="btn" />
-                     </styleClass></Button>
+                  <Button layoutX="1075.0" layoutY="22.0" mnemonicParsing="false" onAction="#addListRental" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="ADD" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0" />
+                  <Button layoutX="817.0" layoutY="33.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="CANCEL" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="25.0" />
+                  <Button layoutX="763.0" layoutY="26.0" mnemonicParsing="false" onAction="#deleteListRental" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="DELETE" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="25.0" />
+                  <Button layoutX="765.0" layoutY="29.0" mnemonicParsing="false" onAction="#updateListRental" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="UPDATE" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="25.0" />
+                  <Button layoutX="671.0" layoutY="29.0" mnemonicParsing="false" onAction="#returnListRental" prefHeight="30.0" prefWidth="75.0" styleClass="btn" text="RETURN" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="25.0" />
                </children>
             </AnchorPane>
             <AnchorPane style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="675.0">

@@ -1,21 +1,17 @@
 package bookmanagement;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.StackedAreaChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Alert.AlertType;
 
@@ -24,6 +20,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -45,9 +42,6 @@ public class MainController implements Initializable {
     private Button customerManagement;
 
     @FXML
-    private Button logOut;
-
-    @FXML
     private AnchorPane home_form;
 
     @FXML
@@ -57,7 +51,7 @@ public class MainController implements Initializable {
     private Label numOfRental;
 
     @FXML
-    private StackedAreaChart<?, ?> chartBook;
+    private BarChart<String, Number> chartBook;
 
     @FXML
     private AnchorPane book_form;
@@ -117,21 +111,6 @@ public class MainController implements Initializable {
 
     @FXML
     private ImageView importImg;
-
-    @FXML
-    private Button importImgBtn;
-
-    @FXML
-    private Button clearBtn;
-
-    @FXML
-    private Button delBtn;
-
-    @FXML
-    private Button updateBtn;
-
-    @FXML
-    private Button addBtn;
 
     @FXML
     private AnchorPane customer_form;
@@ -263,6 +242,53 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+    public void getChar() {
+        chartBook.getData().clear();
+
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Title Book");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Quantity");
+
+        listBooks = this.getBookData();
+        listRental = this.getRentalData();
+
+        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
+        dataSeries1.setName("Number of books");
+
+        int lenBook = listBooks.size();
+        int[] totalBook = new int[lenBook];
+        int[] totalRental = new int[lenBook];
+
+        for(int i = 0; i < lenBook; i++) {
+            totalRental[i] = 0;
+            totalBook[i] += listBooks.get(i).getQuantity();
+            for(Rental r : listRental) {
+                if(Objects.equals(r.getIdBook(), listBooks.get(i).getId())) {
+                    totalBook[i]++;
+                    totalRental[i]++;
+                }
+            }
+        }
+
+        for(int i = 0; i < lenBook; i++) {
+            dataSeries1.getData().add(new XYChart.Data<String, Number>(listBooks.get(i).getTitle(), totalBook[i]));
+        }
+
+        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
+        dataSeries2.setName("Number of rentals");
+
+        for(int i = 0; i < lenBook; i++) {
+            dataSeries2.getData().add(new XYChart.Data<String, Number>(listBooks.get(i).getTitle(), totalRental[i]));
+        }
+
+        chartBook.getData().add(dataSeries1);
+        chartBook.getData().add(dataSeries2);
+
+    }
+
     public void showListBook() {
         listBooks = this.getBookData();
 
@@ -409,8 +435,7 @@ public class MainController implements Initializable {
     }
 
     public void updateListBook() {
-        String uri = path.replace("\\", "\\\\");
-
+        String uri = path;
         String sql = "UPDATE book SET title = ?, author = ?, publiser = ?, public_year = ?, genre = ?, quantity = ?, price = ?, image = ? WHERE id = ?";
 
         connect = GetSQL.connectDb();
@@ -439,12 +464,11 @@ public class MainController implements Initializable {
                 Optional<ButtonType> option = alert.showAndWait();
 
                 if (option.isPresent() && option.get().equals(ButtonType.OK)) {
-                    // Prepare statement
                     try (PreparedStatement prepare = connect.prepareStatement(sql)) {
                         prepare.setString(1, inputTitle.getText());
                         prepare.setString(2, inputAuthor.getText());
                         prepare.setString(3, inputPubliser.getText());
-                        prepare.setDate(4, java.sql.Date.valueOf(inputPublicYear.getValue())); // Sử dụng java.sql.Date cho giá trị ngày
+                        prepare.setDate(4, java.sql.Date.valueOf(inputPublicYear.getValue()));
                         prepare.setString(5, inputGenre.getText());
                         prepare.setInt(6, Integer.parseInt(inputQuantity.getText()));
                         prepare.setDouble(7, Double.parseDouble(inputPrice.getText()));
@@ -482,8 +506,9 @@ public class MainController implements Initializable {
 
     public void deleteListBook() {
         Alert alert;
-        String sql = "DELETE FROM book WHERE id = '"
-                + inputBookId.getText() + "'";
+        String delete = "DELETE FROM rental WHERE bookId = '" + inputBookId.getText() + "'";
+
+        String sql = "DELETE FROM book WHERE id = '"+ inputBookId.getText() + "';";
 
         connect = GetSQL.connectDb();
         alert = new Alert(AlertType.CONFIRMATION);
@@ -495,6 +520,7 @@ public class MainController implements Initializable {
         if (option.get().equals(ButtonType.OK)) {
             try {
                 statement = connect.createStatement();
+                statement.executeUpdate(delete);
                 statement.executeUpdate(sql);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -578,7 +604,8 @@ public class MainController implements Initializable {
         rental_form.setVisible(false);
         customer_form.setVisible(false);
 
-        bookStorage.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+        bookStorage.setStyle("-fx-background-color:#ccc;\n" +
+                " -fx-text-fill:#000;");
         home.setStyle("-fx-background-color:transparent;");
         rentalManagement.setStyle("-fx-background-color:transparent;");
         customerManagement.setStyle("-fx-background-color:transparent;");
@@ -877,10 +904,7 @@ public class MainController implements Initializable {
     public void showListRental() {
         listRental = this.getRentalData();
 
-        rentalId.setCellValueFactory(cellData -> {
-            int rowIndex = cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1;
-            return new SimpleIntegerProperty(rowIndex).asObject();
-        });
+        rentalId.setCellValueFactory(new PropertyValueFactory<>("id"));
         rentalCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         rentalName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         rentalPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -1142,6 +1166,7 @@ public class MainController implements Initializable {
         connect = GetSQL.connectDb();
         int countData = 0;
         try {
+            assert connect != null;
             statement = connect.createStatement();
             result = statement.executeQuery(totalBookSQL);
 
@@ -1162,6 +1187,7 @@ public class MainController implements Initializable {
         connect = GetSQL.connectDb();
         int countData = 0;
         try {
+            assert connect != null;
             statement = connect.createStatement();
             result = statement.executeQuery(totalRentalSQL);
 
@@ -1175,6 +1201,34 @@ public class MainController implements Initializable {
         }
 
     }
+
+    public void setSearchRenTal() {
+
+        FilteredList<Rental> filter = new FilteredList<>(listRental, e -> true);
+
+        searchRental.textProperty().addListener((Observable, oldValue, newValue) -> {
+
+            filter.setPredicate(predicateCustomerData -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String searchKey = newValue.toLowerCase();
+
+
+                if(searchKey.matches("\\d+")) {
+                    return predicateCustomerData.getPhone().contains(searchKey);
+                }
+                 else return predicateCustomerData.getFullName().toLowerCase().contains(searchKey);
+            });
+        });
+
+        SortedList<Rental> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(rentalDetail.comparatorProperty());
+        rentalDetail.setItems(sortList);
+    }
+
     public void switchForm(ActionEvent e) {
         if(e.getSource() == home) {
             home_form.setVisible(true);
@@ -1182,10 +1236,12 @@ public class MainController implements Initializable {
             rental_form.setVisible(false);
             customer_form.setVisible(false);
 
-            home.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+            home.setStyle("-fx-background-color:#ccc;\n" +
+                    " -fx-text-fill:#000;");
             bookStorage.setStyle("-fx-background-color:transparent;");
             rentalManagement.setStyle("-fx-background-color:transparent;");
             customerManagement.setStyle("-fx-background-color:transparent;");
+            this.getChar();
             this.getTotalBook();
             this.getTotalRental();
         } else if(e.getSource() == bookStorage) {
@@ -1196,19 +1252,22 @@ public class MainController implements Initializable {
             rental_form.setVisible(true);
             customer_form.setVisible(false);
 
-            rentalManagement.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+            rentalManagement.setStyle("-fx-background-color:#ccc;\n" +
+                    " -fx-text-fill:#000;");
             bookStorage.setStyle("-fx-background-color:transparent;");
             home.setStyle("-fx-background-color:transparent;");
             customerManagement.setStyle("-fx-background-color:transparent;");
 
             this.showListRental();
+            this.setSearchRenTal();
         } else if(e.getSource() == customerManagement) {
             home_form.setVisible(false);
             book_form.setVisible(false);
             rental_form.setVisible(false);
             customer_form.setVisible(true);
 
-            customerManagement.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+            customerManagement.setStyle("-fx-background-color:#ccc;\n" +
+                    " -fx-text-fill:#000;");
             bookStorage.setStyle("-fx-background-color:transparent;");
             home.setStyle("-fx-background-color:transparent;");
             rentalManagement.setStyle("-fx-background-color:transparent;");
@@ -1220,16 +1279,14 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        home.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+        home.setStyle("-fx-background-color:#ccc;\n" +
+                " -fx-text-fill:#000;");
         this.getTotalBook();
         this.getTotalRental();
 
         inputRentalPhone.setOnAction(event -> this.getRetalPhone());
         inputRentalCustomerId.setOnAction(event -> this.getRetalCustomerId());
+        this.getChar();
         this.showListBook();
     }
-
-
-
-
 }

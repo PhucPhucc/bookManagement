@@ -1,7 +1,5 @@
 package bookmanagement;
 
-import java.sql.Date;
-
 public class Customer {
 
     private Integer customerId;
